@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Main = styled.main`
   width: 100%;
   height: 100%;
-  background: #B4D7FB;
+  background: #b4d7fb;
 `;
 
 const Section = styled.section`
@@ -12,15 +12,44 @@ const Section = styled.section`
   padding: 20px;
 `;
 
+const Header = styled.h1`
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
 const Page = () => {
   const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    // Implement the following method
+    function activateOptlyPage(optlyPage) {
+      //Force deactivation of the page
+      window.optimizely.push({
+        type: "page",
+        pageName: optlyPage,
+        isActive: false,
+      });
+
+      //Reactivate the page. This will force Optimizely to evaluate the conditions again as if reloading the DOM.
+      window.optimizely.push({
+        type: "page",
+        pageName: optlyPage,
+      });
+
+      console.log("Optimizely Reactivated page - " + optlyPage);
+    }
+
+    //run the new function
+    activateOptlyPage(
+      "14072380213_url_targeting_for_copy_of_mlp_testn_n_debugn_2"
+    );
+  }, []);
 
   return (
     <Main>
       <Section>
-        <h1 style={{ fontSize: 32, fontWeight: "bold", marginBottom: 20 }}>
-          Original Header Content. Counter: {counter}
-        </h1>
+        <Header>Original Header Content. Counter: {counter}</Header>
         <p>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry standard dummy text ever
