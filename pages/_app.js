@@ -1,5 +1,27 @@
-import '@/styles/globals.css'
+import Script from "next/script";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyled = createGlobalStyle`
+  html, body, #__next, main {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  body {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+`;
 
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Script
+        src="https://cdn.optimizely.com/js/14072380213.js"
+        strategy="beforeInteractive"
+      />
+      <GlobalStyled />
+      <Component {...pageProps} />
+    </>
+  );
 }
