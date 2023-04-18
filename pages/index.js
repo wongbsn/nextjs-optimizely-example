@@ -1,22 +1,23 @@
 import { useState } from "react";
+import styled from "styled-components";
 
-const OptimizelyPage = () => {
+const Main = styled.main`
+  width: 100%;
+  height: 100%;
+  background: #B4D7FB;
+`;
+
+const Section = styled.section`
+  height: "100%";
+  padding: 20px;
+`;
+
+const Page = () => {
   const [counter, setCounter] = useState(0);
 
   return (
-    <main
-      style={{
-        background: "#B4D7FB",
-        width: "100vw",
-        height: "100%",
-      }}
-    >
-      <section
-        style={{
-          height: "100%",
-          padding: 20,
-        }}
-      >
+    <Main>
+      <Section>
         <h1 style={{ fontSize: 32, fontWeight: "bold", marginBottom: 20 }}>
           Original Header Content. Counter: {counter}
         </h1>
@@ -37,9 +38,9 @@ const OptimizelyPage = () => {
           Increment Counter
         </button>
         <br />
-      </section>
-    </main>
+      </Section>
+    </Main>
   );
 };
 
-export default OptimizelyPage;
+export default Page;
