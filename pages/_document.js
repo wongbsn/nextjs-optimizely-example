@@ -32,7 +32,10 @@ export default class AppDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head />
+        <Head>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+          <script src="https://cdn.optimizely.com/js/14072380213.js" />
+        </Head>
         <body>
           <Main />
           <NextScript />

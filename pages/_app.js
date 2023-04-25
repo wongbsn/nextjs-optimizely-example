@@ -1,4 +1,4 @@
-import Script from "next/script";
+// import Script from "next/script";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyled = createGlobalStyle`
@@ -17,10 +17,10 @@ const GlobalStyled = createGlobalStyle`
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <Script
+      {/* <Script
         src="https://cdn.optimizely.com/js/14072380213.js"
         strategy="beforeInteractive"
-      />
+      /> */}
       <GlobalStyled />
       <Component {...pageProps} />
     </>
