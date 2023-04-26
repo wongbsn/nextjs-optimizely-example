@@ -1,9 +1,7 @@
 import NextApp from "next/app";
 import Script from "next/script";
 import { createGlobalStyle } from "styled-components";
-import OptimizelyOptInBar, {
-  OPTIMIZELY_OPT_OUT_COOKIE,
-} from "../components/OptimizelyOptInBar/OptimizelyOptInBar";
+import { OPTIMIZELY_OPT_OUT_COOKIE } from "../components/OptimizelyOptInBar/OptimizelyOptInBar";
 
 const GlobalStyled = createGlobalStyle`
   html, body, #__next, main {
@@ -16,6 +14,10 @@ const GlobalStyled = createGlobalStyle`
   body {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 export default function App({ Component, pageProps, optimizelyOptOut }) {
@@ -26,8 +28,7 @@ export default function App({ Component, pageProps, optimizelyOptOut }) {
         strategy="beforeInteractive"
       />
       <GlobalStyled />
-      <OptimizelyOptInBar initialOptOut={optimizelyOptOut} />
-      <Component {...pageProps} />
+      <Component {...pageProps} optimizelyOptOut={optimizelyOptOut} />
     </>
   );
 }
