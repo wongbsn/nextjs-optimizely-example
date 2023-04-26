@@ -1,5 +1,9 @@
+import NextApp from "next/app";
 import Script from "next/script";
 import { createGlobalStyle } from "styled-components";
+import OptimizelyOptInBar, {
+  OPTIMIZELY_OPT_OUT_COOKIE,
+} from "../components/OptimizelyOptInBar/OptimizelyOptInBar";
 
 const GlobalStyled = createGlobalStyle`
   html, body, #__next, main {
@@ -14,7 +18,7 @@ const GlobalStyled = createGlobalStyle`
   }
 `;
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps, optimizelyOptOut }) {
   return (
     <>
       <Script
@@ -22,7 +26,19 @@ export default function App({ Component, pageProps }) {
         strategy="beforeInteractive"
       />
       <GlobalStyled />
+      <OptimizelyOptInBar initialOptOut={optimizelyOptOut} />
       <Component {...pageProps} />
     </>
   );
 }
+
+App.getInitialProps = async function getInitialProps(context) {
+  const optimizelyOptOut = !!context.ctx.req.cookies[OPTIMIZELY_OPT_OUT_COOKIE];
+
+  const appProps = await NextApp.getInitialProps(context);
+
+  return {
+    ...appProps,
+    optimizelyOptOut,
+  };
+};
