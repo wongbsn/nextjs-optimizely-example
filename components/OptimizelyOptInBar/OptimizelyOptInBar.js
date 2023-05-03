@@ -15,6 +15,24 @@ const Container = styled.div`
   }
 `;
 
+function getCookie(cookieName) {
+  let cookie = {};
+  document.cookie.split(";").forEach(function (el) {
+    let [key, value] = el.split("=");
+    cookie[key.trim()] = value;
+  });
+  return cookie[cookieName];
+}
+
+var setCookie = function (c_name, value, exdays, c_domain) {
+  c_domain = typeof c_domain === "undefined" ? "" : "domain=" + c_domain + ";";
+  var exdate = new Date();
+  exdate.setDate(exdate.getDate() + exdays);
+  var c_value =
+    escape(value) + (exdays == null ? "" : "; expires=" + exdate.toUTCString());
+  document.cookie = c_name + "=" + c_value + ";" + c_domain + "path=/";
+};
+
 function OptimizelyOptInBar({ initialOptOut }) {
   const [optOut, setOptOut] = useState(initialOptOut);
 
@@ -26,14 +44,19 @@ function OptimizelyOptInBar({ initialOptOut }) {
           type="checkbox"
           checked={optOut}
           onChange={(e) => {
-            const newValue = !optOut;
+            const userOptsOut = !optOut;
 
-            setOptOut(newValue);
-            window["optimizely"] = window["optimizely"] || [];
-            window["optimizely"].push({
-              type: "optOut",
-              isOptOut: newValue,
-            });
+            setOptOut(userOptsOut);
+
+            if (userOptsOut) {
+              window["optimizely"] = window["optimizely"] || [];
+              window["optimizely"].push({
+                type: "optOut",
+                isOptOut: true,
+              });
+            } else {
+              setCookie(OPTIMIZELY_OPT_OUT_COOKIE, 1, -1, window.location.hostname.replace('www', ''));
+            }
           }}
         />
       </label>
